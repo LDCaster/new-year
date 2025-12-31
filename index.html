@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Selamat Tinggal 2025 – Selamat Datang 2026</title>
+
+    <!-- FIX VIEWPORT ANDROID -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        min-height: 100dvh; /* FIX ANDROID HEIGHT */
+        overflow: hidden;
+        background: linear-gradient(135deg, #020024, #090979, #00d4ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top,
+          rgba(255, 255, 255, 0.1),
+          transparent 60%
+        );
+        z-index: 1;
+      }
+
+      .container {
+        text-align: center;
+        position: relative;
+        z-index: 3;
+        padding: 20px;
+        max-width: 90vw;
+      }
+
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        font-weight: 800;
+        animation: fadeUp 2s ease forwards;
+      }
+
+      h2 {
+        margin-top: 14px;
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        font-weight: 600;
+        opacity: 0;
+        animation: fadeUp 2s ease forwards;
+        animation-delay: 2.5s;
+      }
+
+      .year {
+        font-size: clamp(3.2rem, 10vw, 5.5rem);
+        margin-top: 20px;
+        font-weight: 800;
+        letter-spacing: 6px;
+      }
+
+      .old {
+        animation: slideOut 3s ease forwards;
+        animation-delay: 1s;
+        color: #ffb703;
+      }
+
+      .new {
+        opacity: 0;
+        animation: zoomGlow 3s ease forwards;
+        animation-delay: 4s;
+        background: linear-gradient(90deg, #00ffd5, #ffffff, #00ffd5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 25px rgba(0, 255, 213, 0.9);
+      }
+
+      .quote {
+        margin-top: 28px;
+        font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeUp 2.5s ease forwards;
+        animation-delay: 6.5s;
+        color: #e0f7ff;
+      }
+
+      canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 12px;
+        font-size: 0.8rem;
+        opacity: 0.7;
+        z-index: 3;
+        text-align: center;
+        padding: 0 10px;
+      }
+
+      .music-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 12px 18px;
+        border-radius: 30px;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        backdrop-filter: blur(10px);
+        z-index: 3;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideOut {
+        to {
+          opacity: 0;
+          transform: translateX(-150px);
+        }
+      }
+
+      @keyframes zoomGlow {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        70% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- MUSIC -->
+    <audio id="bgm" loop>
+      <source
+        src="https://audio-previews.elements.envatousercontent.com/files/151734794/preview.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <button class="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
+
+    <canvas id="fireworks"></canvas>
+    <div class="overlay"></div>
+
+    <div class="container">
+      <h1>Selamat Tinggal 2025</h1>
+      <div class="year old">2025</div>
+
+      <h2>Selamat Datang</h2>
+      <div class="year new">2026</div>
+
+      <div class="quote">
+        Hey kamu.<br />
+        Iya, kamu yang sering capek tapi tetap jalan.<br />
+        Yang punya banyak keluhan, banyak cobaan,<br />
+        tapi masih memilih bertahan.<br /><br />
+
+        Kalau sejauh ini kamu bisa sampai di sini,<br />
+        itu berarti kamu sudah melewati lebih banyak hal<br />
+        daripada yang orang lain tahu.<br /><br />
+
+        Maka 2026 bukan tentang menyerah.<br />
+        Tapi tentang melanjutkan langkah,<br />
+        dengan versi dirimu yang lebih kuat dari kemarin.
+      </div>
+    </div>
+
+    <footer>✨ 2026 • Saatnya versi terbaik dari dirimu ✨</footer>
+
+    <script>
+      const audio = document.getElementById("bgm");
+      const btn = document.querySelector(".music-btn");
+      let playing = false;
+
+      function toggleMusic() {
+        playing ? audio.pause() : audio.play();
+        btn.textContent = playing ? "🎵 Play Music" : "⏸ Pause Music";
+        playing = !playing;
+      }
+
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      const particles = [];
+
+      function createFirework() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height * 0.5;
+        const colors = ["#ffd93d", "#6bcfff", "#00ffd5", "#ff6bff", "#ffffff"];
+
+        for (let i = 0; i < 60; i++) {
+          // LEBIH RINGAN ANDROID
+          particles.push({
+            x,
+            y,
+            radius: Math.random() * 2 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speedX: (Math.random() - 0.5) * 6,
+            speedY: (Math.random() - 0.5) * 6,
+            life: 90,
+          });
+        }
+      }
+
+      function animate() {
+        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.life--;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+
+          if (p.life <= 0) particles.splice(i, 1);
+        }
+        requestAnimationFrame(animate);
+      }
+
+      setInterval(createFirework, 900);
+      animate();
+    </script>
+  </body>
+</html>
