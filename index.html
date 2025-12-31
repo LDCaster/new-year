@@ -4,13 +4,11 @@
     <meta charset="UTF-8" />
     <title>Selamat Tinggal 2025 – Selamat Datang 2026</title>
 
-    <!-- FIX VIEWPORT ANDROID -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
 
-    <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&display=swap"
       rel="stylesheet"
@@ -25,7 +23,7 @@
       }
 
       body {
-        min-height: 100dvh; /* FIX ANDROID HEIGHT */
+        min-height: 100dvh;
         overflow: hidden;
         background: linear-gradient(135deg, #020024, #090979, #00d4ff);
         display: flex;
@@ -121,7 +119,7 @@
 
       .music-btn {
         position: absolute;
-        top: 75px;
+        top: calc(15px + env(safe-area-inset-top));
         right: 15px;
         padding: 12px 18px;
         border-radius: 30px;
@@ -132,6 +130,12 @@
         color: #fff;
         backdrop-filter: blur(10px);
         z-index: 3;
+      }
+
+      @media (max-width: 480px) {
+        .music-btn {
+          top: calc(80px + env(safe-area-inset-top));
+        }
       }
 
       @keyframes fadeUp {
@@ -170,7 +174,6 @@
   </head>
 
   <body>
-    <!-- MUSIC -->
     <audio id="bgm" loop>
       <source
         src="https://audio-previews.elements.envatousercontent.com/files/151734794/preview.mp3"
@@ -237,7 +240,6 @@
         const colors = ["#ffd93d", "#6bcfff", "#00ffd5", "#ff6bff", "#ffffff"];
 
         for (let i = 0; i < 60; i++) {
-          // LEBIH RINGAN ANDROID
           particles.push({
             x,
             y,
@@ -251,7 +253,7 @@
       }
 
       function animate() {
-        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fillStyle = "rgba(0,0,0,.25)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         for (let i = particles.length - 1; i >= 0; i--) {
